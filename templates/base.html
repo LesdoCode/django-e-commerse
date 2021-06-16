@@ -1,0 +1,263 @@
+{% load static %}
+{% load cart_template_tags %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Tebogo Lemekoana">
+  {% comment %} <meta name="generator" content="Hugo 0.82.0"> {% endcomment %}
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Ecom</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+  
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .carousel {
+      height: 60vh;
+    }
+
+    @media (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg text-white bg-light scrolling-navbar">
+    <div class="container">
+      <!-- Brand -->
+      <a class="navbar-brand waves-effect" href="/" target="_blank">
+        <strong class="blue-text">LesdoB2C</strong>
+      </a>
+
+       <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        <!-- Left -->
+        <ul class="navbar-nav ml-0 mr-auto">
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="/">Home</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+          
+          {% if request.user.is_authenticated %}
+            
+            <li class="nav-item">
+              <a href="{% url 'order_summary' %}" class="nav-link waves-effect">
+                <i class="fas fa-user-circle"></i>
+                <span class="clearfix d-none d-sm-inline-block"> {{request.user.username}} </span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{% url 'order_summary' %}" class="nav-link waves-effect">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                <span class="badge red z-depth-1 mr-1"> {{request.user|cart_item_count}} </span>
+
+              </a>
+            </li>
+
+            
+            <li class="nav-item">
+              <a href="{% url 'account_logout' %}" class="nav-link waves-effect">
+                <i class="fas fa-sign-out-alt    "></i>
+                <span class="clearfix d-none d-sm-inline-block"> Log out </span>
+              </a>
+            </li>
+            
+          {% else %}
+            <li class="nav-item">
+              <a href="{% url 'account_login' %}" class="nav-link waves-effect">
+                <i class="fas fa-sign-in-alt    "></i>
+                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Login </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'account_signup' %}" class="nav-link waves-effect">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Sign up </span>
+              </a>
+            </li>
+            
+          {% endif %}
+          
+        </ul>
+        <!-- Right -->
+      </div>
+
+    </div>
+      <form class="d-flex" action="{% url 'item_search' %}" method='POST'>
+        {% csrf_token %}
+        <input class="form-control me-1 mt-2" type="search" placeholder="search products" aria-label="Search" name="search">
+        <button class="btn btn-outline-primary btn-sm p-2 mt-2" type="submit">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </form>
+  </nav>
+
+  {% if messages %}
+      {% for message in messages %}
+        <p class="m-3">
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </p>     
+      {% endfor %}
+  {% endif %}
+
+
+  <main class="mt-5 pt-1">
+      <div class="container dark-grey-text mt-5">
+          <section class="text-center">
+              {% block content %}
+    
+              {% endblock content %}
+          </section>
+      </div>
+  </main>
+
+</body>
+
+<footer class="page-footer font-small elegant-color mt-5 pt-4">
+  <div class="container text-center text-md-left">
+    <div class="row text-center text-md-left mt-3 pb-3">
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">LesdoCode</h6>
+        <p>
+          LesdoCode's LesdoB2C department is your 1 stop shop for all your small busines B2C needs.
+        </p>
+      </div>
+      <hr class="w-100 clearfix d-md-none">
+      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
+        <p>
+          <a href="#!">B2C</a>
+        </p>
+        <p>
+          <a href="#!">Scripting</a>
+        </p>
+        <p>
+          <a href="#!">Websites</a>
+        </p>
+        <p>
+          <a href="#!">Automation</a>
+        </p>
+      </div>
+      <hr class="w-100 clearfix d-md-none">
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Useful links</h6>
+        <p>
+          <a href="#!">Your Account</a>
+        </p>
+        <p>
+          <a href="#!">Become a Customer</a>
+        </p>
+        <p>
+          <a href="#!">Shipping Rates</a>
+        </p>
+        <p>
+          <a href="#!">Help</a>
+        </p>
+      </div>
+      <hr class="w-100 clearfix d-md-none">
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+        <p>
+          <i class="fas fa-home mr-3"></i> LesdoCode headquarters SA</p>
+        <p>
+          <i class="fas fa-envelope mr-3"></i> info.lesdocode@gmail.com</p>
+        <p>
+          <i class="fas fa-phone mr-3"></i> +27 79 284 26 81</p>
+        <p>
+          <i class="fas fa-print mr-3"></i> +27 60 503 60 62</p>
+      </div>
+    </div>
+    <hr>
+    <div class="row d-flex align-items-center">
+      <div class="col-md-7 col-lg-8">
+        <p class="text-center text-md-left">© 2021 Copyright:
+          <a href="#">
+            <strong> LesdoCode </strong>
+          </a>
+        </p>
+      </div>
+      <div class="col-md-5 col-lg-4 ml-lg-0">
+        <div class="text-center text-md-right">
+          <ul class="list-unstyled list-inline">
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-google-plus-g"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <script type="text/javascript">
+    new WOW().init();
+  </script>
+
+</html>

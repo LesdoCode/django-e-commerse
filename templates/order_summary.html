@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<style>
+    .small-image{
+        width: 70px;
+        height: 70px;
+        
+    }
+</style>
+
+{% if order.items.all.count == 0 %}
+<h1>
+    <i class="fas fa-cart-plus    "></i>
+</h1>
+{% else %}
+<h1>Order summary</h1>
+{% endif %}
+
+<br/>
+
+<div class="table-responsive">
+    <table class="table center" style="vertical-align: bottom;">
+      
+
+            <tbody>
+                {% if order.items.all.count == 0 %}
+                    No items in your cart yet
+                {% else %}
+
+                    <thead>
+                <tr>
+                <th scope="col"></th>
+                <th scope="col">Item name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total item price</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+
+            {% for order_item in order.items.all %}
+                <tr>
+                    <th scope="row">
+                        <img src="{{order_item.item.image.url}}" alt="" class="rounded small-image">
+                    </th>
+                    <td>{{order_item.item.title}}</td>
+
+                    <td>
+                        <a href="{{order_item.item.get_remove_single_from_cart_url}}" class="mr-3" ><i class="fas fa-minus"></i></a>
+                        {{order_item.quantity}}
+                        <a href="{{order_item.item.get_add_to_cart_url}}" class="ml-3"><i class="fas fa-plus"></i></a>
+                    </td>
+
+                    {% if order_item.item.discount_price %}
+                        <td>ZAR {{order_item.item.discount_price}} </td>
+                    {% else %}
+                        <td>ZAR {{order_item.item.price}}</td>
+                    {% endif %}
+
+
+                    {% if order_item.item.discount_price %}
+                        <td>ZAR {{order_item.get_final_price}} <span class="badge-info badge-pill"><strong>saved ZAR {{order_item.get_amount_saved}}</strong></td>
+                    {% else %}
+                        <td>ZAR {{order_item.get_final_price}}</td>
+                    {% endif %}
+
+
+                    <td>
+                        <a href="{{order_item.item.get_remove_from_cart_url}}">
+                            <span style="color: red;">
+                                <i class="far fa-trash-alt"></i>
+                            </span>
+                        </a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+      </tbody>
+    </table>
+
+    <br/><br/>
+    {% if order.items.all.count > 0 %}
+        <h4>Grand total: ZAR {{grand_total}}</h4>
+        <br/>
+    {% endif %}
+
+    <a type="button" class="btn btn-outline-secondary waves-effect" href="/"> <i class="fas fa-cart-plus"></i> Continue shopping</a>
+
+    {% if order.items.all.count > 0 %}
+        <a type="button" class="btn btn-outline-success waves-effect" href="/checkout">Proceed to checkout <i class="fas fa-truck-moving"></i> </a>
+    {% endif %}
+
+    <hr>
+    </div>
+    <br/>
+  </div>
+
+{% endblock content %}

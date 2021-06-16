@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="jumbotron jumbotron-fluid bg-secondary text-white">
+    <div class="container">
+      <h6 class="display-3">
+        <i class="fas fa-search    "></i> Search for "{{search}}"..
+      </h6>
+      <hr class="my-2">
+    </div>
+  </div>
+
+  <!--Main layout-->
+  <main>
+    <div class="container">
+      <section class="text-center mb-4">
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          {% for object in items %}
+          
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
+
+              <!--Card-->
+              <div class="card">
+
+                <!--Card image-->
+                <div class="view overlay">
+                  <img src="{{object.image.url}}" class="card-img-top"
+                    alt="">
+                  <a href="{% url 'product' object.slug %}">
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
+                </div>
+                <!--Card image-->
+
+                <!--Card content-->
+                <div class="card-body text-center">
+                  <!--Category & Title-->
+                  <a href="{% url 'product' object.slug %}" class="grey-text">
+                    <h5>{{object.title}}</h5>
+                  </a>
+                  
+
+                  <h4 class="font-weight-bold green-text">
+                    {% if object.discount_price %}
+                  
+                      <strong>
+                        R{{ object.discount_price }}
+                      </strong>
+
+                    {%else%}
+
+                      <strong>
+                        R{{object.price}}
+                      </strong>
+                    
+                    {% endif %}
+                  </h4>
+                </div>
+                <!--Card content-->
+              </div>
+              <!--Card-->
+            </div>
+            <!--Grid column-->
+          {% endfor %}
+
+        </div>
+        <!--Grid row-->
+
+      </section>
+      <!--Section: Products v.3-->
+
+      <!--Pagination-->
+      {% include 'paginator_snippet.html' %}
+      <!--Pagination-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+{% endblock content %}

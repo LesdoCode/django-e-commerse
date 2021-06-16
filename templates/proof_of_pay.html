@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container wow fadeIn">
+    <h2 class="my-5 h2 text-center">Submit proof of payment</h2>
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card offset-1">
+                <form class="card-body text-left" method="POST" action="">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Complete order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Grid column-->
+    <!--Grid column-->
+</div>
+</div>
+
+{% endblock content %}

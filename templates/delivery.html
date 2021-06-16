@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<style>
+    .small-image{
+        width: 70px;
+        height: 70px;
+        
+    }
+</style>
+
+<h1>Delivery Workbook</h1>
+<br/>
+
+<div class="table-responsive">
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">Order list</a>
+        {% for order in orders %}
+            <a href="#" class="list-group-item list-group-item-action text-left"><td>{{order.user.username}}</td>, <td>{{order.ordered_date}}</td></a>
+        {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock content %}
